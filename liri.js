@@ -8,13 +8,6 @@ var Twitter = require('twitter');
 var client = new Twitter(keys.twitter);
 
 console.log(client);
-// var client = new Twitter({
-//   consumer_key: 'iA5NyyChKcjrSVU5slzzAqWdx',
-//   consumer_secret: '6YAR3sCe0Gx1qgPR9xHLP0XvtbQJBy4nyldinKcf75h9JHqDby',
-//   access_token_key: '1023926400842194944-5l7ZbVRdNtVNHmN1yPagJulp0T1I3e',
-//   access_token_secret: 'skZTdEuc7IfCuD2mBnKiyGd97T9x9tX2meP8of2AuJpy8'
-// });
-// console.log(client);
 
 client.get('search/tweets', {q: 'cally_bomba'}, function(error, tweets, response) {
   for (i = 0; i < tweets.length; i++) {
