@@ -1,6 +1,7 @@
 require("dotenv").config();
 var keys = require('./keys');
 var request = require("request");
+var fs = require("fs");    // filesystem
 
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
@@ -70,23 +71,40 @@ request("https://www.omdbapi.com/?t=" + movieName + "&y=&r=json&plot=short&apike
     // * Language of the movie.
     // * Plot of the movie.
     // * Actors in the movie.
-    console.log("-----------------------------------------------------");
-    console.log(response);
-    console.log("-----------------------------------------------------");
-    console.log(body);
-    console.log("-----------------------------------------------------");
+    console.log("--------------------OMDB DATA START ---------------------------------");
     body = JSON.parse(body);
-    console.log(body.Title);
-    console.log(body.Year);
-    console.log(body.Rated);
+    console.log("Title: " + body.Title);
+    console.log("Year Released: " + body.Year);
+    console.log("Rated: " + body.Rated);
     for (var i = 0; i < body.Ratings.length; i++) {
       if (body.Ratings[i].Source === "Rotten Tomatoes") {
-        console.log(body.Ratings[i].Value);
+        console.log("As Rated by Rotten Tomatoes: " + body.Ratings[i].Value);
       }
     }
-    console.log(body.Country);
-    console.log(body.Language);
-    console.log(body.Plot);
-    console.log(body.Actors);
+    console.log("Country: " + body.Country);
+    console.log("Language: " + body.Language);
+    console.log("Plot: " + body.Plot);
+    console.log("Actors: " + body.Actors);
+    console.log("--------------------OMDB DATA END---------------------------------");
   }
+});
+
+fs.readFile("random.txt", "utf8", function (error, data) {
+
+  // If the code experiences any errors it will log the error to the console.
+  if (error) {
+    return console.log(error);
+  }
+
+  console.log("======================== FS DATA from random.txt ==========================");
+  console.log(data);
+
+  // Then split it by commas (to make it more readable)
+  var argsFromRandomFile = data.split(",");
+
+  for (var i = 0; i < argsFromRandomFile.length; i++) {
+    console.log(argsFromRandomFile[i]);
+  }
+  console.log("======================== FS DATA from random.txt ==========================");
+
 });
