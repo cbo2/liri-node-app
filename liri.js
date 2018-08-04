@@ -1,3 +1,4 @@
+var winston = require("winston");   // use winston for logging to a file and the console
 require("dotenv").config();
 var keys = require('./keys');
 var request = require("request");
@@ -6,8 +7,55 @@ var fs = require("fs");    // filesystem
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 
+// create winston loggers and initially set levels to deeper values
+const transports = {
+  console: new winston.transports.Console({
+    level: 'warn',
+    format: winston.format.simple()
+  }),
+  file: new winston.transports.File({
+    filename: 'log.txt',
+    format: winston.format.simple(),
+    level: 'error'
+  })
+};
 
-console.log("*** the request is for: " + process.argv[2]);
+const logger = winston.createLogger({
+  transports: [
+    transports.console,
+    transports.file
+  ]
+});
+
+// dynamically change the logger levels to lighter levels
+transports.console.level = 'info';
+transports.file.level = 'info';
+
+process.argv.splice(0,2);  // strip off the first 2 args from the command line
+
+runAgainstArgs(process.argv);
+
+function runAgainstArgs(args) {
+  logger.info(args);
+  logger.verbose("*** the request is for: " + process.argv[2]);
+  switch (args[0]) {
+    case "my-tweets":
+      logger.info("====> doing my-tweets");
+      break;
+    case "spotify-this-song":
+      logger.info("====> doing spotify-this-song");
+      break;
+    case "movie-this":
+      logger.info("====> doing movie-this");
+      break;
+    case "do-what-it-says":
+      logger.info("====> doing do-what-it-says");
+      break;
+    default:
+      logger.info("====> doing default");
+  }
+}
+
 
 var Twitter = require('twitter');
 var client = new Twitter(keys.twitter);
@@ -103,8 +151,10 @@ fs.readFile("random.txt", "utf8", function (error, data) {
   var argsFromRandomFile = data.split(",");
 
   for (var i = 0; i < argsFromRandomFile.length; i++) {
-    console.log(argsFromRandomFile[i]);
+    logger.warn(argsFromRandomFile[i]);
   }
+  runAgainstArgs(argsFromRandomFile);
+
   console.log("======================== FS DATA from random.txt ==========================");
 
 });

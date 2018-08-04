@@ -23,6 +23,7 @@
     "node-spotify-api": "^1.0.7",
     "npm": "^6.2.0",
     "request": "^2.87.0",
-    "twitter": "^1.7.1"
+    "twitter": "^1.7.1",
+    "winston": "^3.0.0"
   }
 }
