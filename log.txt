@@ -1,0 +1,82 @@
+info: ==================== Running spotify-this-song on track: "I Want it That Way"
+
+info: The name of the album is: The Hits--Chapter One
+info: artists: Backstreet Boys
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: Millennium
+info: artists: Backstreet Boys
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: The Essential Backstreet Boys
+info: artists: Backstreet Boys
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: Covers Part IV
+info: artists: Anthem Lights
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: I Want It That Way
+info: artists: Manuel Costa
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: Bye Bye Bye / I Want It That Way (Glee Cast Version)
+info: artists: Glee Cast
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: Poodle Hat
+info: artists: "Weird Al" Yankovic
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: 90 Sweet 90s Hits!
+info: artists: Backstreet Boys
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: Punk Goes Pop
+info: artists: Dynamite Boy
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: NKOTBSB
+info: artists: Backstreet Boys
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: I Want It That Way
+info: artists: Steel Panther
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: Cover Sessions, Vol. 2
+info: artists: Boyce Avenue
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: I Want It That Way
+info: artists: Landon Austin & Julia Sheer
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: The Essential "Weird Al" Yankovic
+info: artists: "Weird Al" Yankovic
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: I Want It That Way
+info: artists: Kyle Olthoff, Destiny Jenkins
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: I Want It That Way
+info: artists: Jason Chen, Joseph Vincent
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: Selfies on Kodachrome
+info: artists: Scott Bradlee's Postmodern Jukebox, Shoshana Bean
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: NOW That's What I Call 90s Pop
+info: artists: Backstreet Boys
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: Nu Funk
+info: artists: Scary Pockets, Casey Abrams
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
+info: The name of the album is: I Want It That Way
+info: artists: FROIDZ
+info: I Want It That Way
+info: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6

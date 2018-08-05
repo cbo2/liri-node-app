@@ -1,12 +1,4 @@
 var winston = require("winston");   // use winston for logging to a file and the console
-require("dotenv").config();
-var keys = require('./keys');
-var request = require("request");
-var fs = require("fs");    // filesystem
-
-var Spotify = require('node-spotify-api');
-var spotify = new Spotify(keys.spotify);
-
 // create winston loggers and initially set levels to deeper values
 const transports = {
   console: new winston.transports.Console({
@@ -31,130 +23,126 @@ const logger = winston.createLogger({
 transports.console.level = 'info';
 transports.file.level = 'info';
 
-process.argv.splice(0,2);  // strip off the first 2 args from the command line
 
-runAgainstArgs(process.argv);
+require("dotenv").config();
+var keys = require('./keys');
+var request = require("request");
+var fs = require("fs");    // filesystem
 
-function runAgainstArgs(args) {
-  logger.info(args);
-  logger.verbose("*** the request is for: " + process.argv[2]);
-  switch (args[0]) {
-    case "my-tweets":
-      logger.info("====> doing my-tweets");
-      break;
-    case "spotify-this-song":
-      logger.info("====> doing spotify-this-song");
-      break;
-    case "movie-this":
-      logger.info("====> doing movie-this");
-      break;
-    case "do-what-it-says":
-      logger.info("====> doing do-what-it-says");
-      break;
-    default:
-      logger.info("====> doing default");
-  }
-}
-
+var Spotify = require('node-spotify-api');
+var spotify = new Spotify(keys.spotify);
 
 var Twitter = require('twitter');
 var client = new Twitter(keys.twitter);
 
-// console.log(client);
 
-client.get('search/tweets', { q: 'node.js', count: '20' }, function (error, tweets, response) {
-  console.log("=========================================================================================");
-  console.log("the length of statuses is: ", tweets.statuses.length);
-  for (i = 0; i < tweets.statuses.length; i++) {
-    // console.log(tweets.statuses[i].text);
+process.argv.splice(0, 2);  // strip off the first 2 args from the command line
+
+runAgainstArgs(process.argv);
+
+function runAgainstArgs(args) {
+  logger.verbose("*** the request is for: " + process.argv[2]);
+  switch (args[0]) {
+    case "my-tweets":
+      args.shift();
+      if (args[0] === undefined) {
+        args[0] = "node.js";   // default the search to node.js
+      }
+      myTweets(args[0]);
+      break;
+    case "spotify-this-song":
+      args.shift();
+      spotifyThisSong(args);
+      break;
+    case "movie-this":
+      args.shift();
+      movieThis(args);
+      break;
+    case "do-what-it-says":
+    default:
+      doWhatItSays();
+      break;
   }
-  console.log("=========================================================================================");
-  // console.log(tweets);
-});
+}
+
+function myTweets(args) {
+  logger.info("================ Running my-tweets for: " + args);
+  client.get('search/tweets', { q: args, count: '20' }, function (error, tweets, response) {
+    for (i = 0; i < tweets.statuses.length; i++) {
+      logger.info(tweets.statuses[i].created_at + ": " + tweets.statuses[i].text);
+    }
+  });
+}
 
 
 // spotify stuff...
-var track = "All the Small Things";
-var searchCriteria = {
-  type: 'track',
-  query: track
-};
-console.log("------------ spotify ----------------");
-spotify
-  // .search({ type: 'track', query: 'All the Small Things' })
-  .search(searchCriteria)
-  .then(function (response) {
-    // console.log(JSON.stringify(response));
-    // console.log("The name of the album is: " + JSON.stringify(response.tracks.items[0]));
-    var items = response.tracks.items;
-    for (var i = 0; i < items.length; i++) {
-      console.log("The name of the album is: " + items[i].album.name);
-      var artists = items[i].artists;
-      for (var j = 0; j < artists.length; j++) {
-        console.log("artist[" + i + ":" + j + "] = " + artists[j].name);
+function spotifyThisSong(args) {
+  logger.info("==================== Running spotify-this-song on track: " + args);
+  var track = args[0];
+  var searchCriteria = {
+    type: 'track',
+    query: track
+  };
+  spotify
+    .search(searchCriteria)
+    .then(function (response) {
+      var items = response.tracks.items;
+      for (var i = 0; i < items.length; i++) {
+        logger.info("The name of the album is: " + items[i].album.name);
+        var artists = items[i].artists;
+        var artistArray = [];
+        for (var j = 0; j < artists.length; j++) {
+          artistArray.push(artists[j].name);
+        }
+        logger.info("artists: " + artistArray.join(", "));
+        // logger.info(response.tracks.items[0].artists[0].name);
+        logger.info(response.tracks.items[0].name);
+        logger.info(response.tracks.items[0].external_urls.spotify);
       }
-      // console.log(response.tracks.items[0].artists[0].name);
-      console.log(response.tracks.items[0].name);
-      console.log(response.tracks.items[0].external_urls.spotify);
-    }
-  })
-  .catch(function (err) {
-    console.log(err);
-  });
-
+    })
+    .catch(function (err) {
+      logger.info(err);
+    });
+}
 
 // OMDB section
-var movieName = "Caddyshack";
+function movieThis(movieName) {
+  logger.info("===================== Running movie-this for: " + movieName);
 
-request("https://www.omdbapi.com/?t=" + movieName + "&y=&r=json&plot=short&apikey=trilogy", function (error, response, body) {
+  request("https://www.omdbapi.com/?t=" + movieName + "&y=&r=json&plot=short&apikey=trilogy", function (error, response, body) {
 
-  // If the request was successful...
-  if (!error && response.statusCode === 200) {
-
-    // Title of the movie.
-    // * Year the movie came out.
-    // * IMDB Rating of the movie.
-    // * Rotten Tomatoes Rating of the movie.
-    // * Country where the movie was produced.
-    // * Language of the movie.
-    // * Plot of the movie.
-    // * Actors in the movie.
-    console.log("--------------------OMDB DATA START ---------------------------------");
-    body = JSON.parse(body);
-    console.log("Title: " + body.Title);
-    console.log("Year Released: " + body.Year);
-    console.log("Rated: " + body.Rated);
-    for (var i = 0; i < body.Ratings.length; i++) {
-      if (body.Ratings[i].Source === "Rotten Tomatoes") {
-        console.log("As Rated by Rotten Tomatoes: " + body.Ratings[i].Value);
+    // If the request was successful...
+    if (!error && response.statusCode === 200) {
+      body = JSON.parse(body);
+      logger.info("Title: " + body.Title);
+      logger.info("Year Released: " + body.Year);
+      logger.info("Rated: " + body.Rated);
+      for (var i = 0; i < body.Ratings.length; i++) {
+        if (body.Ratings[i].Source === "Rotten Tomatoes") {
+          logger.info("As Rated by Rotten Tomatoes: " + body.Ratings[i].Value);
+        }
       }
+      logger.info("Country: " + body.Country);
+      logger.info("Language: " + body.Language);
+      logger.info("Plot: " + body.Plot);
+      logger.info("Actors: " + body.Actors);
     }
-    console.log("Country: " + body.Country);
-    console.log("Language: " + body.Language);
-    console.log("Plot: " + body.Plot);
-    console.log("Actors: " + body.Actors);
-    console.log("--------------------OMDB DATA END---------------------------------");
-  }
-});
+  });
+}
 
-fs.readFile("random.txt", "utf8", function (error, data) {
+function doWhatItSays() {
+  fs.readFile("random.txt", "utf8", function (error, data) {
 
-  // If the code experiences any errors it will log the error to the console.
-  if (error) {
-    return console.log(error);
-  }
+    // If the code experiences any errors it will log the error to the console.
+    if (error) {
+      return logger.error(error);
+    }
 
-  console.log("======================== FS DATA from random.txt ==========================");
-  console.log(data);
+    logger.debug(data);
 
-  // Then split it by commas (to make it more readable)
-  var argsFromRandomFile = data.split(",");
+    var argsFromRandomFile = data.split(",");
 
-  for (var i = 0; i < argsFromRandomFile.length; i++) {
-    logger.warn(argsFromRandomFile[i]);
-  }
-  runAgainstArgs(argsFromRandomFile);
+    runAgainstArgs(argsFromRandomFile);  // run app with args from file as-if from the command line
 
-  console.log("======================== FS DATA from random.txt ==========================");
-
-});
+  });
+}
